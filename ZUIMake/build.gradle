@@ -1,0 +1,65 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    defaultConfig {
+        applicationId "com.zuiapps.suite.make"
+        minSdkVersion 14
+        targetSdkVersion 19
+        versionCode 100000
+        versionName "1.0.0"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('../keystore/zuiapps.keystore')
+            storePassword 'zui%#618*-apps&'
+            keyAlias 'zuiapps.keystore'
+            keyPassword 'zui%#618*-apps&'
+        }
+    }
+
+    buildTypes {
+        release {
+            debuggable false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            debuggable true
+            versionNameSuffix ".dev"
+        }
+    }
+    // Channels
+    productFlavors {
+        google {}
+        amazon {}
+    }
+
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile 'com.squareup:otto:1.3.5'
+    compile 'com.umeng.analytics:analytics:5.4.2'
+    compile 'de.greenrobot:greendao:1.3.7'
+    compile project(':android_utils')
+    compile project(':zui_ui_library')
+}

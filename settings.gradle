@@ -1,0 +1,6 @@
+include ':ZUIMake'
+
+include ':android_utils'
+project(':android_utils').projectDir = new File('../../android_common_modules/AndroidCommonModules/android_utils')
+include ':zui_ui_library'
+project(':zui_ui_library').projectDir = new File('../../android_common_modules/AndroidCommonModules/zui_ui_library')
